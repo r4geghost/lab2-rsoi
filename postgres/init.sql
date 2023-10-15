@@ -14,6 +14,15 @@ CREATE TABLE flight_service.airport
 );
 ALTER TABLE flight_service.airport
     OWNER TO postgres;
+CREATE SEQUENCE flight_service.airport_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER TABLE ONLY flight_service.airport
+    ALTER COLUMN id SET DEFAULT nextval('flight_service.airport_id_seq'::regclass);
 
 CREATE TABLE flight_service.flight
 (
@@ -26,6 +35,15 @@ CREATE TABLE flight_service.flight
 );
 ALTER TABLE flight_service.flight
     OWNER TO postgres;
+CREATE SEQUENCE flight_service.flight_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER TABLE ONLY flight_service.flight
+    ALTER COLUMN id SET DEFAULT nextval('flight_service.flight_id_seq'::regclass);
 
 ALTER TABLE ONLY flight_service.airport
     ADD CONSTRAINT airport_pkey PRIMARY KEY (id);
@@ -60,6 +78,16 @@ CREATE TABLE ticket_service.ticket
 );
 ALTER TABLE ticket_service.ticket
     OWNER TO postgres;
+CREATE SEQUENCE ticket_service.ticket_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER TABLE ONLY ticket_service.ticket
+    ALTER COLUMN id SET DEFAULT nextval('ticket_service.ticket_id_seq'::regclass);
+
 ALTER TABLE ONLY ticket_service.ticket
     ADD CONSTRAINT ticket_pkey PRIMARY KEY (id);
 
@@ -75,6 +103,15 @@ CREATE TABLE privilege_service.privilege
 );
 ALTER TABLE privilege_service.privilege
     OWNER TO postgres;
+CREATE SEQUENCE privilege_service.privilege_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER TABLE ONLY privilege_service.privilege
+    ALTER COLUMN id SET DEFAULT nextval('privilege_service.privilege_id_seq'::regclass);
 
 CREATE TABLE privilege_service.privilege_history
 (
@@ -87,6 +124,15 @@ CREATE TABLE privilege_service.privilege_history
 );
 ALTER TABLE privilege_service.privilege_history
     OWNER TO postgres;
+CREATE SEQUENCE privilege_service.privilege_history_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER TABLE ONLY privilege_service.privilege_history
+    ALTER COLUMN id SET DEFAULT nextval('privilege_service.privilege_history_id_seq'::regclass);
 
 ALTER TABLE ONLY privilege_service.privilege_history
     ADD CONSTRAINT privilege_history_pkey PRIMARY KEY (id);
