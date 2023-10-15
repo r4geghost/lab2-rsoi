@@ -12,6 +12,6 @@ import java.util.List;
 public class FlightListResponse {
     int page;
     int pageSize;
-    int totalItems;
+    int totalElements;
     List<FlightResponse> items;
 }

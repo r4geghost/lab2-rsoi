@@ -83,6 +83,9 @@ public class GatewayController {
                     updateBalance(bonusBalance + (ticket.getPrice() / 10), username);
                 }
 
+                // get updated balance info
+                PrivilegeResponse updatedPrivilege = getPrivilegeInfo(username);
+
                 // create response
                 return TicketPurchaseResponse.build(
                         ticketUid,
@@ -94,7 +97,7 @@ public class GatewayController {
                         paidByMoney,
                         paidByBonuses,
                         "PAID",
-                        privilege
+                        updatedPrivilege
                 );
             } catch (HttpClientErrorException e) {
                 throw new Exception("Privilege of user " + username + " not found");
