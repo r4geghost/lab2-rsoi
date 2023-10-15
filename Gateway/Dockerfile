@@ -3,7 +3,7 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 FROM amazoncorretto:19 as builder
-WORKDIR application
+WORKDIR gateway
 ARG JAR_FILE=target/*.jar
 COPY --from=build ${JAR_FILE} gateway.jar
 RUN java -Djarmode=layertools -jar gateway.jar extract

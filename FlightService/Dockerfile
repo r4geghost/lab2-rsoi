@@ -3,7 +3,7 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 FROM amazoncorretto:19 as builder
-WORKDIR application
+WORKDIR flight_service
 ARG JAR_FILE=target/*.jar
 COPY --from=build ${JAR_FILE} flight_service.jar
 RUN java -Djarmode=layertools -jar flight_service.jar extract
