@@ -181,6 +181,7 @@ public class GatewayController {
     }
 
     @DeleteMapping("/tickets/{ticketUid}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTicketByUid(@PathVariable UUID ticketUid, @RequestHeader(name = "X-User-Name") String username) throws Exception {
         try {
             // get ticket to be deleted
