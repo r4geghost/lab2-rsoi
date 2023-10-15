@@ -36,16 +36,17 @@ jobs:
 
       - uses: docker/setup-buildx-action@v2
 
-      - name: Build images
-        run: docker compose build
-
       - name: Run containers
         timeout-minutes: 5
         run: docker compose up -d
 
-      - name: Wait for Spring Boot to start
-        run: sleep 20s
-        shell: bash
+      - name: Check start of services
+        run: |
+          chmod +x ./scripts/wait-script.sh
+          chmod +x ./scripts/wait-for.sh
+          ./scripts/wait-script.sh
+        env:
+          WAIT_PORTS: 8080,8070,8060,8050
 
       - name: Run API Tests
         uses: matt-ball/newman-action@master
@@ -59,3 +60,110 @@ jobs:
         if: always()
         continue-on-error: true
         run: docker compose down -v
+
+  deploy-gateway:
+    name: Deploy to Render of Gateway
+    needs: [ integrationTest ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Trigger deploy via Render API
+        env:
+          deploy_url: ${{ secrets.RENDER_DEPLOY_GATEWAY }}
+        run:
+          curl "$deploy_url"
+
+      - name: Wait for Render Deployment
+        uses: bounceapp/render-action@0.6.0
+        with:
+          render-token: ${{ secrets.RENDER_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          service-id: srv-ckm13b0u1l6c73e1k60g?key=L5mkIFlHI-g
+          retries: 20
+          wait: 30000
+          sleep: 30000
+
+  deploy-flight-service:
+    name: Deploy to Render of Flight Service
+    needs: [ integrationTest ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Trigger deploy via Render API
+        env:
+          deploy_url: ${{ secrets.RENDER_DEPLOY_FLIGHT_SERVICE }}
+        run:
+          curl "$deploy_url"
+
+      - name: Wait for Render Deployment
+        uses: bounceapp/render-action@0.6.0
+        with:
+          render-token: ${{ secrets.RENDER_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          service-id: srv-ckm1hgqv7m0s73e8o6ag?key=-DLEwJzlS5E
+          retries: 20
+          wait: 30000
+          sleep: 30000
+
+  deploy-ticket-service:
+    name: Deploy to Render of Ticket Service
+    needs: [ integrationTest ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Trigger deploy via Render API
+        env:
+          deploy_url: ${{ secrets.RENDER_DEPLOY_TICKET_SERVICE }}
+        run:
+          curl "$deploy_url"
+
+      - name: Wait for Render Deployment
+        uses: bounceapp/render-action@0.6.0
+        with:
+          render-token: ${{ secrets.RENDER_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          service-id: srv-ckm1hs3j89us739kbc6g?key=AQn4X1T1MW8
+          retries: 20
+          wait: 30000
+          sleep: 30000
+
+  deploy-bonus-service:
+    name: Deploy to Render of Bonus Service
+    needs: [ integrationTest ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Trigger deploy via Render API
+        env:
+          deploy_url: ${{ secrets.RENDER_DEPLOY_BONUS_SERVICE }}
+        run:
+          curl "$deploy_url"
+
+      - name: Wait for Render Deployment
+        uses: bounceapp/render-action@0.6.0
+        with:
+          render-token: ${{ secrets.RENDER_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          service-id: srv-ckm1ib0u1l6c73e6juog?key=o-wo0KApdDA
+          retries: 20
+          wait: 30000
+          sleep: 30000
+
+  run_api_tests:
+    name: Run integration tests on Render
+    runs-on: ubuntu-latest
+    needs: [ deploy-gateway, deploy-flight-service, deploy-ticket-service, deploy-bonus-service]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run API Tests
+        uses: matt-ball/newman-action@master
+        with:
+          collection: postman/collection.json
+          environment: postman/render-environment.json
+          delayRequest: 1000
+          reporters: '[ "cli" ]'

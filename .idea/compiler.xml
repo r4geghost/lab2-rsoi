@@ -7,7 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="BonusService" />
-        <module name="TickerService" />
+        <module name="TicketService" />
         <module name="FlightService" />
         <module name="Gateway" />
       </profile>
@@ -18,7 +18,7 @@
       <module name="BonusService" options="-parameters" />
       <module name="FlightService" options="-parameters" />
       <module name="Gateway" options="-parameters" />
-      <module name="TickerService" options="-parameters" />
+      <module name="TicketService" options="-parameters" />
     </option>
   </component>
 </project>
