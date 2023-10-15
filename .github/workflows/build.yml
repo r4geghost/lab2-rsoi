@@ -20,7 +20,7 @@ jobs:
         run: docker compose up -d
 
       - name: Sleep for Spring Boot to start
-        run: sleep 30s
+        run: sleep 60s
         shell: bash
 
       - name: Run API Tests
