@@ -1,0 +1,29 @@
+name: Lab2 CI/CD
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    name: Build services
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: docker/setup-buildx-action@v2
+
+      - name: Build images
+        run: docker compose build
+
+      - name: Run containers
+        timeout-minutes: 5
+        run: docker compose up -d
+
+      - name: Sleep for Spring Boot to start
+        run: sleep 15s
+        shell: bash
+
+      - name: Stop containers
+        if: always()
+        continue-on-error: true
+        run: docker compose down -v
