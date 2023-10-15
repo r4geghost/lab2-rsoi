@@ -227,7 +227,7 @@ public class GatewayController {
                 ResponseEntity<PrivilegeResponse> updatedPrivilege = rest.exchange(
                         BONUS_SERVICE + GET_PRIVILEGE_URL,
                         HttpMethod.PATCH,
-                        new HttpEntity<>(headers),
+                        new HttpEntity<>(balanceUpdate, headers),
                         PrivilegeResponse.class
                 );
             } catch (HttpClientErrorException e) {
