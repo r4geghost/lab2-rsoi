@@ -265,6 +265,11 @@ public class GatewayController {
         }
     }
 
+    @GetMapping("/manage/health")
+    public ResponseEntity<Void> status() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     private PrivilegeHistoryResponse[] getPrivilegeHistory(String username) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-User-Name", username);
