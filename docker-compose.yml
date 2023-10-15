@@ -61,6 +61,10 @@ services:
     container_name: gateway-service
     depends_on:
       - postgres
+    environment:
+      - TICKET_SERVICE_HOST=http://localhost:8070
+      - FLIGHT_SERVICE_HOST=http://localhost:8060
+      - BONUS_SERVICE_HOST=http://localhost:8050
     ports:
       - "8080:8080"
 volumes:
