@@ -19,7 +19,30 @@ jobs:
         timeout-minutes: 5
         run: docker compose up -d
 
-      - name: Sleep for Spring Boot to start
+      - name: Check start of services
+        run: |
+          chmod +x ./scripts/wait-script.sh
+          ./scripts/wait-script.sh
+        env:
+          WAIT_PORTS: 8080,8070,8060,8050
+
+  integration-tests:
+    name: Run integration tests
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: docker/setup-buildx-action@v2
+
+      - name: Build images
+        run: docker compose build
+
+      - name: Run containers
+        timeout-minutes: 5
+        run: docker compose up -d
+
+      - name: Wait for Spring Boot to start
         run: sleep 20s
         shell: bash
 
