@@ -63,7 +63,7 @@ jobs:
 
   deploy-gateway:
     name: Deploy to Render of Gateway
-    needs: [ integrationTest ]
+    needs: [ integration-tests ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -86,7 +86,7 @@ jobs:
 
   deploy-flight-service:
     name: Deploy to Render of Flight Service
-    needs: [ integrationTest ]
+    needs: [ integration-tests ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -109,7 +109,7 @@ jobs:
 
   deploy-ticket-service:
     name: Deploy to Render of Ticket Service
-    needs: [ integrationTest ]
+    needs: [ integration-tests ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -132,7 +132,7 @@ jobs:
 
   deploy-bonus-service:
     name: Deploy to Render of Bonus Service
-    needs: [ integrationTest ]
+    needs: [ integration-tests ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
