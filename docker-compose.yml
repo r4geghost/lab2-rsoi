@@ -28,7 +28,7 @@ services:
       - "8060:8060"
 
   ticket-service:
-    build: TickerService/
+    build: TicketService/
     image: ticket-service:v1
     container_name: ticket-service
     depends_on:
