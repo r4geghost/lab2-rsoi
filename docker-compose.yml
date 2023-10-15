@@ -4,7 +4,7 @@ services:
     image: postgres:13
     container_name: postgres
     environment:
-      POSTGRES_USER: meekie
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123
       POSTGRES_DB: postgres
     volumes:
@@ -21,7 +21,7 @@ services:
       - postgres
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/postgres?currentSchema=flight_service
-      - SPRING_DATASOURCE_USERNAME=meekie
+      - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=123
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     ports:
@@ -35,7 +35,7 @@ services:
       - postgres
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/postgres?currentSchema=ticket_service
-      - SPRING_DATASOURCE_USERNAME=meekie
+      - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=123
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     ports:
@@ -48,8 +48,8 @@ services:
     depends_on:
       - postgres
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/postgres?currentSchema=bonus_service
-      - SPRING_DATASOURCE_USERNAME=meekie
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/postgres?currentSchema=privilege_service
+      - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=123
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     ports:

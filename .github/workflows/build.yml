@@ -1,7 +1,7 @@
 name: Lab2 CI/CD
 on:
   push:
-    branches: [master]
+    branches: [ master ]
 
 jobs:
   build:
@@ -20,8 +20,16 @@ jobs:
         run: docker compose up -d
 
       - name: Sleep for Spring Boot to start
-        run: sleep 15s
+        run: sleep 30s
         shell: bash
+
+      - name: Run API Tests
+        uses: matt-ball/newman-action@master
+        with:
+          collection: postman/collection.json
+          environment: postman/local-environment.json
+          delayRequest: 1000
+          reporters: '[ "cli" ]'
 
       - name: Stop containers
         if: always()
